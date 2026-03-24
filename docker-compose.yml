@@ -1,0 +1,18 @@
+services:
+  db_notas_fiscais:
+    image: mysql:8.0
+    container_name: mysql-notas-fiscais
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: sistema_notas_fiscais
+    ports:
+      - "3306:3306"
+    volumes:
+      # Mantém os dados salvos mesmo se o container for apagado
+      - mysql_data:/var/lib/mysql
+      # Copia o script SQL para rodar automaticamente na primeira vez que o banco subir
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+volumes:
+  mysql_data:
